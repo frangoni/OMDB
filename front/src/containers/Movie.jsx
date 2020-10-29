@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import axios from "axios";
+import { fetchFavs } from "../store/action-creators/movies";
 
-const Movie = ({ movie, user, history }) => {
+const Movie = ({ movie, user, history, favs, fetchFavs }) => {
+  const [inFavs, setInFavs] = useState(false);
   const addFav = () => {
     axios
       .post("/fav", {
@@ -13,8 +15,23 @@ const Movie = ({ movie, user, history }) => {
         poster: movie.Poster,
         genre: movie.Genre,
       })
-      .then(() => history.push("/"));
+      .then(() => history.goBack());
   };
+
+  const favIterator = (favs) => {
+    let i = 0;
+    let fav = {};
+    while (i < favs.length) {
+      fav = favs[i];
+      if (fav && fav.imdbId == movie.imdbID) return true;
+      i++;
+    }
+  };
+
+  useEffect(() => {
+    fetchFavs().then(() => setInFavs(favIterator(favs)));
+  }, []);
+
   return (
     <Figure>
       <Figure.Image
@@ -42,6 +59,11 @@ const Movie = ({ movie, user, history }) => {
             Add to Favorites
           </Button>
         )}
+        {user.id && inFavs && (
+          <Button variant="danger" onClick={addFav}>
+            Remove from Favorites
+          </Button>
+        )}
       </Figure.Caption>
     </Figure>
   );
@@ -52,7 +74,14 @@ const mapStateToProps = (state, ownProps) => {
     movie: ownProps.movie,
     user: state.user,
     history: ownProps.history,
+    favs: state.favs,
   };
 };
 
-export default connect(mapStateToProps, null)(Movie);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchFavs: () => dispatch(fetchFavs()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Movie);

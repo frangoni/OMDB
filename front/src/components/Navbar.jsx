@@ -6,23 +6,26 @@ const Navbars = ({ user }) => {
   return (
     <Navbar id="navbar" fixed="top" bg="dark" expand="lg">
       <Nav className="mr-auto nav">
-        <Navbar.Brand href="/">OMDB</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <img id="logo" src="omdb.png" alt="" />
+        </Navbar.Brand>
       </Nav>
-      <Nav className="nav"></Nav>
-      {user.id ? (
-        <Button href="/user" variant="dark">
-          User
-        </Button>
-      ) : (
-        <>
-          <Button href="/login" variant="success">
-            Login
+      <Nav className="nav">
+        {user.id ? (
+          <Button href="/user" variant="dark">
+            User
           </Button>
-          <Button href="/register" variant="primary">
-            Register
-          </Button>
-        </>
-      )}
+        ) : (
+          <>
+            <Button href="/login" variant="success">
+              Login
+            </Button>
+            <Button href="/register" variant="primary">
+              Register
+            </Button>
+          </>
+        )}
+      </Nav>
     </Navbar>
   );
 };

@@ -22,10 +22,17 @@ User.init(
     email: {
       type: DataTypes.STRING,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
 
     password: {
       type: DataTypes.STRING,
+      required: true,
+      validate: {
+        notEmpty: true,
+      },
     },
     salt: {
       type: DataTypes.STRING,

@@ -45,6 +45,7 @@ const UserContainer = ({ user, favs, fetchFavs, history }) => {
                       </Button>
                     </Link>
                     <Button
+                      id="removefav"
                       onClick={removeFav}
                       value={movie.imdbId}
                       variant="danger"

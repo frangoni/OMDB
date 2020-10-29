@@ -22,7 +22,7 @@ const receiveFavs = (movies) => {
 
 export const fetchMovies = () => (dispatch) =>
   axios
-    .get("https://www.omdbapi.com/?apikey=2d0964df&s=harry")
+    .get("https://www.omdbapi.com/?apikey=2d0964df&s=ac/dc")
     .then((res) => res.data)
     .then((movies) => dispatch(receiveMovies(movies)));
 

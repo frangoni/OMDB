@@ -26,7 +26,7 @@ class Register extends React.Component {
         <Form className="login" onSubmit={this.handleSubmit}>
           <h1>Register for a more complete experience!</h1>
           <Form.Group>
-            <Form.Label className="loginLabel">Name</Form.Label>
+            <Form.Label className="loginLabel">Name*</Form.Label>
             <Form.Control type="text" placeholder="Name" />
           </Form.Group>
           <Form.Group>
@@ -34,14 +34,14 @@ class Register extends React.Component {
             <Form.Control type="text" placeholder="Last Name" />
           </Form.Group>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label className="loginLabel">Email address</Form.Label>
+            <Form.Label className="loginLabel">Email address*</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
-            <Form.Label className="loginLabel">Password</Form.Label>
+            <Form.Label className="loginLabel">Password*</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
           <Button variant="primary" type="submit">
