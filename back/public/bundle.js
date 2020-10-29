@@ -52676,7 +52676,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App(_ref) {
-  var getUser = _ref.getUser;
+  var getUser = _ref.getUser,
+      user = _ref.user;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getUser();
   }, []);
@@ -52697,8 +52698,23 @@ var App = function App(_ref) {
     component: _containers_Register__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/user",
-    component: _UserContainer__WEBPACK_IMPORTED_MODULE_11__["default"]
+    component: function component(_ref2) {
+      var history = _ref2.history;
+      return user.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserContainer__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        history: history
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Login__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        history: history
+      });
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+    to: "/login"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Footer__WEBPACK_IMPORTED_MODULE_6__["default"], null));
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    user: state.user
+  };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -52709,7 +52725,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_10__["connect"])(null, mapDispatchToProps)(App));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_10__["connect"])(mapStateToProps, mapDispatchToProps)(App));
 
 /***/ }),
 
@@ -52775,7 +52791,8 @@ var MovieContainer = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Movie__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        movie: this.props.movie
+        movie: this.props.movie,
+        history: this.props.history
       });
     }
   }]);
@@ -53058,9 +53075,16 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Carousel */ "./node_modules/react-bootstrap/esm/Carousel.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _store_action_creators_movies__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/action-creators/movies */ "./src/store/action-creators/movies.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Carousel */ "./node_modules/react-bootstrap/esm/Carousel.js");
+/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_action_creators_movies__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/action-creators/movies */ "./src/store/action-creators/movies.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
 
 
 
@@ -53069,39 +53093,68 @@ __webpack_require__.r(__webpack_exports__);
 var UserContainer = function UserContainer(_ref) {
   var user = _ref.user,
       favs = _ref.favs,
-      fetchFavs = _ref.fetchFavs;
+      fetchFavs = _ref.fetchFavs,
+      history = _ref.history;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     fetchFavs();
   }, []);
+
+  var removeFav = function removeFav(e) {
+    var imdbId = e.target.value;
+    var userId = user.id;
+    axios__WEBPACK_IMPORTED_MODULE_6___default.a["delete"]("/fav", {
+      data: {
+        imdbId: imdbId,
+        userId: userId
+      }
+    }).then(function () {
+      return history.push("/user");
+    });
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "carouselContainer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome ", user.name, "!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "This are your favourites movies:")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome ", user.name, "!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "This are your favourites movies:")), favs.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: "carousel"
   }, favs && favs.map(function (movie) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"].Item, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_2__["default"].Item, {
+      key: movie.imdbId
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
       className: "d-block w-100",
       src: movie.poster,
       alt: "First slide"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__["default"].Caption, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, movie.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, movie.genre)));
-  })));
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_2__["default"].Caption, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/movie/".concat(movie.imdbId)
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      variant: "warning",
+      text: "primary"
+    }, "See details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      onClick: removeFav,
+      value: movie.imdbId,
+      variant: "danger",
+      text: "primary"
+    }, "Remove from favourites")));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "No favourites movies in your list!"));
 };
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state, _ref2) {
+  var history = _ref2.history;
   return {
     user: state.user,
-    favs: state.favs
+    favs: state.favs,
+    history: history
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchFavs: function fetchFavs() {
-      return dispatch(Object(_store_action_creators_movies__WEBPACK_IMPORTED_MODULE_3__["fetchFavs"])());
+      return dispatch(Object(_store_action_creators_movies__WEBPACK_IMPORTED_MODULE_5__["fetchFavs"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(UserContainer));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(UserContainer));
 
 /***/ }),
 
@@ -53273,7 +53326,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var Movie = function Movie(_ref) {
   var movie = _ref.movie,
-      user = _ref.user;
+      user = _ref.user,
+      history = _ref.history;
 
   var addFav = function addFav() {
     axios__WEBPACK_IMPORTED_MODULE_4___default.a.post("/fav", {
@@ -53281,6 +53335,8 @@ var Movie = function Movie(_ref) {
       imdbId: movie.imdbID,
       poster: movie.Poster,
       genre: movie.Genre
+    }).then(function () {
+      return history.push("/");
     });
   };
 
@@ -53300,15 +53356,12 @@ var Movie = function Movie(_ref) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     movie: ownProps.movie,
-    user: state.user
+    user: state.user,
+    history: ownProps.history
   };
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(Movie));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, null)(Movie));
 
 /***/ }),
 

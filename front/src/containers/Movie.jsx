@@ -4,14 +4,16 @@ import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
 import axios from "axios";
 
-const Movie = ({ movie, user }) => {
+const Movie = ({ movie, user, history }) => {
   const addFav = () => {
-    axios.post("/fav", {
-      title: movie.Title,
-      imdbId: movie.imdbID,
-      poster: movie.Poster,
-      genre: movie.Genre,
-    });
+    axios
+      .post("/fav", {
+        title: movie.Title,
+        imdbId: movie.imdbID,
+        poster: movie.Poster,
+        genre: movie.Genre,
+      })
+      .then(() => history.push("/"));
   };
   return (
     <Figure>
@@ -49,10 +51,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     movie: ownProps.movie,
     user: state.user,
+    history: ownProps.history,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Movie);
+export default connect(mapStateToProps, null)(Movie);

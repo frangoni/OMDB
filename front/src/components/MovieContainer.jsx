@@ -13,7 +13,7 @@ class MovieContainer extends React.Component {
   }
 
   render() {
-    return <Movie movie={this.props.movie} />;
+    return <Movie movie={this.props.movie} history={this.props.history} />;
   }
 }
 

@@ -10,7 +10,7 @@ router.post("/", (req, res) => {
     defaults: { title, poster, genre },
   })
     .then((fav, created) => {
-      if (!created) return res.sendStatus(201);
+      if (!created) return res.sendStatus(202);
       User.findOne({
         where: {
           email: req.user.email,
@@ -27,15 +27,13 @@ router.get("/", (req, res) => {
 });
 
 router.delete("/", (req, res) => {
-  Fav.destroy(req.body)
-    .then((fav) => {
-      User.findOne({
-        where: {
-          name: req.user.name,
-        },
-      }).then((user) => user.removeFavourite(fav));
-    })
-    .then(() => res.sendStatus(301));
+  const { imdbId, userId } = req.body;
+  Fav.destroy({ where: { imdbId, userId } })
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
 });
 
 module.exports = router;

@@ -50,6 +50,9 @@ html {
 h1 {
   color: rgb(185, 196, 12);
 }
+h2 {
+  color: white;
+}
 
 .movieCard {
   margin: 2% 7.5%;
@@ -120,4 +123,13 @@ h1 {
 #carousel {
   height: 30%;
   width: 30%;
+}
+.carousel-caption {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: center;
+}
+
+#removefav {
+  margin: 20% 0 0 30%;
 }
