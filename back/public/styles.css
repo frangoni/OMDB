@@ -3,6 +3,7 @@
 }
 #app {
   background-color: rgb(55, 53, 53);
+  padding-bottom: 2.5rem;
 }
 html {
   background-color: rgb(55, 53, 53);
@@ -148,7 +149,10 @@ footer {
   justify-content: space-around;
   align-content: flex-end;
   align-items: flex-end;
-  margin-top: 8%;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
 }
 footer > p {
   color: white;

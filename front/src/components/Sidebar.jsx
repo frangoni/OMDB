@@ -15,9 +15,11 @@ const Sidebar = ({ user, history, logOutUser }) => {
           Movies
         </Button>
       </Link>
-      <Button className="sb" variant="warning">
-        Actors
-      </Button>
+      <Link to="/users">
+        <Button className="sb" variant="warning">
+          Users
+        </Button>
+      </Link>
       <Button className="sb" variant="warning">
         Genres
       </Button>
