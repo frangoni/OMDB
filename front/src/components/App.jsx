@@ -21,10 +21,11 @@ const App = ({ getUser, user }) => {
       <Route component={Sidebar} />
       <Switch>
         <Route exact path="/" component={MoviesContainer} />
-        <Route path="/movie/:id" component={MovieContainer} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route exact path="/movie/:id" component={MovieContainer} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route
+          exact
           path="/user"
           component={({ history }) =>
             user.id ? (
@@ -34,7 +35,7 @@ const App = ({ getUser, user }) => {
             )
           }
         />
-        <Redirect to="/login" />
+        <Redirect to="/" />
       </Switch>
       <Footer />
     </div>
