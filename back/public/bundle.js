@@ -52878,9 +52878,11 @@ var MoviesContainer = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      searchValue: ""
+      searchValue: "batman",
+      page: 2
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.addMovies = _this.addMovies.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -52888,10 +52890,21 @@ var MoviesContainer = /*#__PURE__*/function (_React$Component) {
     key: "handleChange",
     value: function handleChange(e) {
       var value = e.target.value;
-      this.props.fetchMovie(value);
       this.setState({
         searchValue: value
       });
+      this.setState({
+        page: 2
+      });
+      this.props.fetchMovie(value);
+    }
+  }, {
+    key: "addMovies",
+    value: function addMovies() {
+      this.setState({
+        page: this.state.page + 1
+      });
+      this.props.addMovies(this.state.searchValue, this.state.page);
     }
   }, {
     key: "componentDidMount",
@@ -52914,7 +52927,8 @@ var MoviesContainer = /*#__PURE__*/function (_React$Component) {
         onChange: this.handleChange,
         value: this.state.searchValue
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Movies__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        movies: this.props.movies
+        movies: this.props.movies,
+        addMovies: this.addMovies
       }));
     }
   }]);
@@ -52924,7 +52938,7 @@ var MoviesContainer = /*#__PURE__*/function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    movies: state.content.Search
+    movies: state.content
   };
 };
 
@@ -52935,6 +52949,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchMovie: function fetchMovie(title) {
       return dispatch(Object(_store_action_creators_movies__WEBPACK_IMPORTED_MODULE_2__["fetchMovie"])(title));
+    },
+    addMovies: function addMovies(title, page) {
+      return dispatch(Object(_store_action_creators_movies__WEBPACK_IMPORTED_MODULE_2__["addMovies"])(title, page));
     }
   };
 };
@@ -53444,8 +53461,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (function (props) {
-  var movies = props.movies;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  var movies = props.movies,
+      addMovies = props.addMovies;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "container"
   }, movies && movies.map(function (movie) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -53464,7 +53482,11 @@ __webpack_require__.r(__webpack_exports__);
       variant: "warning",
       text: "primary"
     }, "See details"))));
-  }));
+  })), movies && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    variant: "warning",
+    id: "more",
+    onClick: addMovies
+  }, "Gimme More!"));
 });
 
 /***/ }),
@@ -53627,7 +53649,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 /*!*********************************************!*\
   !*** ./src/store/action-creators/movies.js ***!
   \*********************************************/
-/*! exports provided: fetchMovies, fetchMovie, fetchId, fetchFavs */
+/*! exports provided: fetchMovies, fetchMovie, fetchId, fetchFavs, addMovies */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -53636,6 +53658,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchMovie", function() { return fetchMovie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchId", function() { return fetchId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchFavs", function() { return fetchFavs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMovies", function() { return addMovies; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -53661,12 +53684,19 @@ var receiveFavs = function receiveFavs(movies) {
   };
 };
 
+var addMoreMovies = function addMoreMovies(movies) {
+  return {
+    type: "ADD_MOVIES",
+    movies: movies
+  };
+};
+
 var fetchMovies = function fetchMovies() {
   return function (dispatch) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://www.omdbapi.com/?apikey=2d0964df&s=ac/dc").then(function (res) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://www.omdbapi.com/?apikey=2d0964df&s=batman").then(function (res) {
       return res.data;
     }).then(function (movies) {
-      return dispatch(receiveMovies(movies));
+      return dispatch(receiveMovies(movies.Search));
     });
   };
 };
@@ -53675,7 +53705,7 @@ var fetchMovie = function fetchMovie(title) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://www.omdbapi.com/?apikey=2d0964df&s=".concat(title)).then(function (res) {
       return res.data;
     }).then(function (movie) {
-      return dispatch(receiveMovie(movie));
+      return dispatch(receiveMovie(movie.Search));
     });
   };
 };
@@ -53694,6 +53724,15 @@ var fetchFavs = function fetchFavs() {
       return res.data;
     }).then(function (movies) {
       return dispatch(receiveFavs(movies));
+    });
+  };
+};
+var addMovies = function addMovies(title, page) {
+  return function (dispatch) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://www.omdbapi.com/?apikey=2d0964df&s=".concat(title, "&page=").concat(page)).then(function (res) {
+      return res.data;
+    }).then(function (movies) {
+      return dispatch(addMoreMovies(movies.Search));
     });
   };
 };
@@ -53810,6 +53849,11 @@ var initialState = {
     case "MOVIES":
       return _objectSpread(_objectSpread({}, state), {}, {
         content: action.movies
+      });
+
+    case "ADD_MOVIES":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        content: state.content.concat(action.movies)
       });
 
     case "USER":

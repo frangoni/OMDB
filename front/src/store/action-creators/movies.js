@@ -19,18 +19,24 @@ const receiveFavs = (movies) => {
     movies,
   };
 };
+const addMoreMovies = (movies) => {
+  return {
+    type: "ADD_MOVIES",
+    movies,
+  };
+};
 
 export const fetchMovies = () => (dispatch) =>
   axios
-    .get("https://www.omdbapi.com/?apikey=2d0964df&s=ac/dc")
+    .get("https://www.omdbapi.com/?apikey=2d0964df&s=batman")
     .then((res) => res.data)
-    .then((movies) => dispatch(receiveMovies(movies)));
+    .then((movies) => dispatch(receiveMovies(movies.Search)));
 
 export const fetchMovie = (title) => (dispatch) =>
   axios
     .get(`https://www.omdbapi.com/?apikey=2d0964df&s=${title}`)
     .then((res) => res.data)
-    .then((movie) => dispatch(receiveMovie(movie)));
+    .then((movie) => dispatch(receiveMovie(movie.Search)));
 
 export const fetchId = (id) => (dispatch) =>
   axios
@@ -43,3 +49,9 @@ export const fetchFavs = () => (dispatch) =>
     .get("/fav")
     .then((res) => res.data)
     .then((movies) => dispatch(receiveFavs(movies)));
+
+export const addMovies = (title, page) => (dispatch) =>
+  axios
+    .get(`https://www.omdbapi.com/?apikey=2d0964df&s=${title}&page=${page}`)
+    .then((res) => res.data)
+    .then((movies) => dispatch(addMoreMovies(movies.Search)));

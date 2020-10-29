@@ -1,20 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchMovies, fetchMovie } from "../store/action-creators/movies";
+import {
+  fetchMovies,
+  fetchMovie,
+  addMovies,
+} from "../store/action-creators/movies";
 import Movies from "../containers/Movies";
 import { FormControl, Form } from "react-bootstrap";
 
 class MoviesContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchValue: "" };
+    this.state = { searchValue: "batman", page: 2 };
     this.handleChange = this.handleChange.bind(this);
+    this.addMovies = this.addMovies.bind(this);
   }
   handleChange(e) {
     let value = e.target.value;
-    this.props.fetchMovie(value);
     this.setState({ searchValue: value });
+    this.setState({ page: 2 });
+    this.props.fetchMovie(value);
   }
+
+  addMovies() {
+    this.setState({ page: this.state.page + 1 });
+    this.props.addMovies(this.state.searchValue, this.state.page);
+  }
+
   componentDidMount() {
     this.props.fetchMovies();
   }
@@ -34,7 +46,7 @@ class MoviesContainer extends React.Component {
             />
           </Form>
         </div>
-        <Movies movies={this.props.movies} />
+        <Movies movies={this.props.movies} addMovies={this.addMovies} />
       </>
     );
   }
@@ -42,7 +54,7 @@ class MoviesContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.content.Search,
+    movies: state.content,
   };
 };
 
@@ -50,6 +62,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMovies: () => dispatch(fetchMovies()),
     fetchMovie: (title) => dispatch(fetchMovie(title)),
+    addMovies: (title, page) => dispatch(addMovies(title, page)),
   };
 };
 
