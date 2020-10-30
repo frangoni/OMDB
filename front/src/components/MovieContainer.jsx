@@ -18,7 +18,7 @@ class MovieContainer extends React.Component {
 
 const mapStateToProps = (state, { match }) => {
   return {
-    movie: state.content,
+    movie: state.movie,
     id: match.params.id,
   };
 };

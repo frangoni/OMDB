@@ -8,8 +8,8 @@ const receiveMovies = (movies) => {
 };
 const receiveMovie = (movie) => {
   return {
-    type: "MOVIES",
-    movies: movie,
+    type: "MOVIE",
+    movie,
   };
 };
 
@@ -36,7 +36,7 @@ export const fetchMovie = (title) => (dispatch) =>
   axios
     .get(`https://www.omdbapi.com/?apikey=2d0964df&s=${title}`)
     .then((res) => res.data)
-    .then((movie) => dispatch(receiveMovie(movie.Search)));
+    .then((movie) => dispatch(receiveMovies(movie.Search)));
 
 export const fetchId = (id) => (dispatch) =>
   axios

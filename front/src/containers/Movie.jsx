@@ -6,7 +6,7 @@ import axios from "axios";
 import { fetchFavs } from "../store/action-creators/movies";
 
 const Movie = ({ movie, user, history, favs, fetchFavs }) => {
-  const [inFavs, setInFavs] = useState(false);
+  /*   const [inFavs, setInFavs] = useState(false); */
   const addFav = () => {
     axios
       .post("/fav", {
@@ -18,7 +18,7 @@ const Movie = ({ movie, user, history, favs, fetchFavs }) => {
       .then(() => history.goBack());
   };
 
-  const favIterator = (favs) => {
+  /*  const favIterator = (favs) => {
     let i = 0;
     let fav = {};
     while (i < favs.length) {
@@ -30,7 +30,7 @@ const Movie = ({ movie, user, history, favs, fetchFavs }) => {
 
   useEffect(() => {
     fetchFavs().then(() => setInFavs(favIterator(favs)));
-  }, []);
+  }, []); */
 
   return (
     <Figure>
@@ -59,11 +59,11 @@ const Movie = ({ movie, user, history, favs, fetchFavs }) => {
             Add to Favorites
           </Button>
         )}
-        {user.id && inFavs && (
+        {/* {user.id && (
           <Button variant="danger" onClick={addFav}>
             Remove from Favorites
           </Button>
-        )}
+        )} */}
       </Figure.Caption>
     </Figure>
   );

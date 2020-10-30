@@ -52806,7 +52806,7 @@ var MovieContainer = /*#__PURE__*/function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, _ref) {
   var match = _ref.match;
   return {
-    movie: state.content,
+    movie: state.movie,
     id: match.params.id
   };
 };
@@ -53349,18 +53349,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _store_action_creators_movies__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/action-creators/movies */ "./src/store/action-creators/movies.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -53375,11 +53363,7 @@ var Movie = function Movie(_ref) {
       favs = _ref.favs,
       fetchFavs = _ref.fetchFavs;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      inFavs = _useState2[0],
-      setInFavs = _useState2[1];
-
+  /*   const [inFavs, setInFavs] = useState(false); */
   var addFav = function addFav() {
     axios__WEBPACK_IMPORTED_MODULE_4___default.a.post("/fav", {
       title: movie.Title,
@@ -53390,23 +53374,20 @@ var Movie = function Movie(_ref) {
       return history.goBack();
     });
   };
-
-  var favIterator = function favIterator(favs) {
-    var i = 0;
-    var fav = {};
-
+  /*  const favIterator = (favs) => {
+    let i = 0;
+    let fav = {};
     while (i < favs.length) {
       fav = favs[i];
       if (fav && fav.imdbId == movie.imdbID) return true;
       i++;
     }
   };
+   useEffect(() => {
+    fetchFavs().then(() => setInFavs(favIterator(favs)));
+  }, []); */
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    fetchFavs().then(function () {
-      return setInFavs(favIterator(favs));
-    });
-  }, []);
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Figure__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Figure__WEBPACK_IMPORTED_MODULE_1__["default"].Image, {
     width: 2500,
     height: 3000,
@@ -53417,10 +53398,7 @@ var Movie = function Movie(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, movie.Title, " (", movie.Year, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Rating: ", movie.imdbRating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, " Actors: ", movie.Actors), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, " Genres: ", movie.Genre), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Plot: ", movie.Plot, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Awards: ", movie.Awards), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), user.id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
     variant: "warning",
     onClick: addFav
-  }, "Add to Favorites"), user.id && inFavs && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    variant: "danger",
-    onClick: addFav
-  }, "Remove from Favorites")));
+  }, "Add to Favorites")));
 };
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -53674,8 +53652,8 @@ var receiveMovies = function receiveMovies(movies) {
 
 var receiveMovie = function receiveMovie(movie) {
   return {
-    type: "MOVIES",
-    movies: movie
+    type: "MOVIE",
+    movie: movie
   };
 };
 
@@ -53707,7 +53685,7 @@ var fetchMovie = function fetchMovie(title) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("https://www.omdbapi.com/?apikey=2d0964df&s=".concat(title)).then(function (res) {
       return res.data;
     }).then(function (movie) {
-      return dispatch(receiveMovie(movie.Search));
+      return dispatch(receiveMovies(movie.Search));
     });
   };
 };
@@ -53840,6 +53818,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   content: [],
+  movie: {},
   favs: [],
   user: {}
 };
@@ -53856,6 +53835,11 @@ var initialState = {
     case "ADD_MOVIES":
       return _objectSpread(_objectSpread({}, state), {}, {
         content: state.content.concat(action.movies)
+      });
+
+    case "MOVIE":
+      return _objectSpread(_objectSpread({}, state), {}, {
+        movie: action.movie
       });
 
     case "USER":
