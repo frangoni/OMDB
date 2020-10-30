@@ -21,15 +21,24 @@ html {
   -moz-box-shadow: 95px 0px 124px 10px rgba(0, 0, 0, 1);
  */
   box-shadow: 50px 100px 250px 100px rgba(0, 0, 0, 1);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(37, 36, 24, 1) 69%,
+    rgba(119, 105, 40, 1) 100%
+  );
 }
 
 #navbar {
   display: flex;
   flex-direction: row;
-  /*   -webkit-box-shadow: inset 0px -200px 116px -200px rgba(227, 200, 28, 1);
-  -moz-box-shadow: inset 0px -200px 116px -200px rgba(227, 200, 28, 1);
- */
-  box-shadow: inset 0px -200px 116px -200px rgba(227, 200, 28, 1);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(232, 224, 0, 1) 100%
+  );
 }
 #logo {
   height: 50px;
@@ -65,10 +74,20 @@ h2 {
   -moz-box-shadow: 14px 11px 20px 4px rgba(0, 0, 0, 0.9);
  */
   box-shadow: 14px 11px 20px 4px rgba(0, 0, 0, 0.9);
+  transition: 0.5s;
+}
+.movieCard:hover {
+  box-shadow: 18px 16px 25px 8px rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
 }
 /* SIDEBAR BUTTONS */
 .sb {
   width: 115%;
+  overflow: hidden;
+}
+button:hover {
+  transform: scale(1.1);
+  transition: 0.4s;
 }
 
 .figure {
