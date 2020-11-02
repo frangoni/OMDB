@@ -59,7 +59,7 @@ const Movie = ({ movie, user, history, favs, fetchFavs }) => {
             Add to Favorites
           </Button>
         )}
-        {/* {user.id && (
+        {/* {user.id && inFavs &&(
           <Button variant="danger" onClick={addFav}>
             Remove from Favorites
           </Button>

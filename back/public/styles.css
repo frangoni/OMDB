@@ -84,6 +84,7 @@ h2 {
 .sb {
   width: 115%;
   overflow: hidden;
+  box-shadow: inset -200px 0px 112px -123px rgba(0, 0, 0, 0.75);
 }
 button:hover {
   transform: scale(1.1);
