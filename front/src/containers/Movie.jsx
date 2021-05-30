@@ -1,46 +1,29 @@
-import React, { useEffect, useState } from "react";
-import Figure from "react-bootstrap/Figure";
-import Button from "react-bootstrap/Button";
-import { connect } from "react-redux";
-import axios from "axios";
-import { fetchFavs } from "../store/action-creators/movies";
+import React, { useEffect, useState } from 'react';
+import Figure from 'react-bootstrap/Figure';
+import Button from 'react-bootstrap/Button';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { fetchFavs } from '../store/action-creators/movies';
 
 const Movie = ({ movie, user, history, favs, fetchFavs }) => {
-  /*   const [inFavs, setInFavs] = useState(false); */
   const addFav = () => {
     axios
-      .post("/fav", {
+      .post('/fav', {
         title: movie.Title,
         imdbId: movie.imdbID,
         poster: movie.Poster,
         genre: movie.Genre,
       })
-      .then(() => history.goBack());
+      .then((a) => {
+        console.log(a);
+        history.goBack();
+      });
   };
-
-  /*  const favIterator = (favs) => {
-    let i = 0;
-    let fav = {};
-    while (i < favs.length) {
-      fav = favs[i];
-      if (fav && fav.imdbId == movie.imdbID) return true;
-      i++;
-    }
-  };
-
-  useEffect(() => {
-    fetchFavs().then(() => setInFavs(favIterator(favs)));
-  }, []); */
 
   return (
     <Figure>
-      <Figure.Image
-        width={2500}
-        height={3000}
-        src={movie.Poster}
-        className="movieCard"
-      />
-      <Figure.Caption id="caption">
+      <Figure.Image width={2500} height={3000} src={movie.Poster} className='movieCard' />
+      <Figure.Caption id='caption'>
         <h1>
           {movie.Title} ({movie.Year})
         </h1>
@@ -55,7 +38,7 @@ const Movie = ({ movie, user, history, favs, fetchFavs }) => {
         <br />
         <br />
         {user.id && (
-          <Button variant="warning" onClick={addFav}>
+          <Button variant='warning' onClick={addFav}>
             Add to Favorites
           </Button>
         )}

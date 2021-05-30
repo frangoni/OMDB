@@ -53260,30 +53260,17 @@ var Movie = function Movie(_ref) {
       favs = _ref.favs,
       fetchFavs = _ref.fetchFavs;
 
-  /*   const [inFavs, setInFavs] = useState(false); */
   var addFav = function addFav() {
-    axios__WEBPACK_IMPORTED_MODULE_4___default.a.post("/fav", {
+    axios__WEBPACK_IMPORTED_MODULE_4___default.a.post('/fav', {
       title: movie.Title,
       imdbId: movie.imdbID,
       poster: movie.Poster,
       genre: movie.Genre
-    }).then(function () {
-      return history.goBack();
+    }).then(function (a) {
+      console.log(a);
+      history.goBack();
     });
   };
-  /*  const favIterator = (favs) => {
-    let i = 0;
-    let fav = {};
-    while (i < favs.length) {
-      fav = favs[i];
-      if (fav && fav.imdbId == movie.imdbID) return true;
-      i++;
-    }
-  };
-   useEffect(() => {
-    fetchFavs().then(() => setInFavs(favIterator(favs)));
-  }, []); */
-
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Figure__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Figure__WEBPACK_IMPORTED_MODULE_1__["default"].Image, {
     width: 2500,
